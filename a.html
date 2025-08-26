@@ -33,6 +33,7 @@
 </div>
 <br /><br />
 
+<!--整批繡一樣-->
 <div class="fill1" style="display:none">
 <label><strong>2. 填寫需求及內容:</strong></label>
 
@@ -40,28 +41,68 @@
     <thead>
     <tr>
 	    <th>序號</th>
-		<th>分類</th>
-		<th>型號</th>
-        <th>尺寸</th>
-		<th>電繡位置</th>
+		<th>商品貨號</th>
+		<th>顏色</th>
+		<th>袖長</th>
+		<th>尺寸</th>
         <th>件數</th>
+		<th>電繡位置</th>
 		<th>電繡字體</th>
 		<th>電繡顏色</th>
+		<th>電繡內容(第一行)</th>
+		<th>電繡內容(第二行)</th>
     </tr>
     </thead>
     <tbody>
     <tr id="clo1">
         <td class="td1">1</td>
-		<td> <input placeholder="" /></td> <!-- 分類 -->
-		<td> <input placeholder="" /></td> <!-- 型號 -->
-        <td> <select class="s_size"> <!-- 尺寸 -->
-			    <option>請選擇尺寸</option>
+		<td> <input placeholder="" size="10" /></td> <!-- 商品貨號 -->
+		<td> <input placeholder="" size="10" /></td> <!-- 顏色 -->
+        <td> <select class="s_sleeve"> <!-- 袖長 -->
+			    <option>請選擇</option>
+				<option value="short">短袖</option>
+				<option value="long">長袖</option>
+				<option value="three_quarter">七分袖</option>
 		     </select>
 		</td>
-        <td> <input placeholder="" /></td> <!-- 電繡位置 -->
-		<td> <input placeholder="" /></td> <!-- 件數 -->
-		<td> <input placeholder="" /></td> <!-- 電繡字體 -->
-		<td> <input placeholder="" /></td> <!-- 電繡顏色 -->
+		<td> <input placeholder="免填" size="10" /></td> <!-- 尺寸 -->
+		<td> <input placeholder="" size="10" /></td> <!-- 件數 -->
+		<td> <select class="s_position"> <!-- 電繡位置 -->
+			    <option>請選擇</option>
+				<option value="left_chest">左胸口處</option>
+				<option value="right_chest">右胸口處</option>
+				<option value="above_left_pocket">左胸口袋上方</option>
+				<option value="above_right_pocket">右胸口袋上方</option>
+		     </select>
+		</td>
+		<td> <select class="s_font"> <!-- 電繡字體 -->
+			    <option>請選擇</option>
+				<option value="ch_kai">中文-標楷體</option>
+				<option value="ch_heavy">中文-華康中黑體</option>
+				<option value="en_kai">英文-標楷體</option>
+				<option value="en_arial">英文-Arial</option>
+				<option value="en_brush_script_mt">英文-Brush Script MT</option>
+				<option value="en_kunstler_script">英文-Kunstler Script</option>
+		     </select>
+		</td>
+		<td> <select class="s_embroidery_color"> <!-- 電繡顏色 -->
+			    <option>請選擇</option>
+				<option value="700_apple_red">700 蘋果紅</option>
+				<option value="535_orange_red">535 橘紅色</option>
+				<option value="525_golden_yellow">525 金黃色</option>
+				<option value="233_apple_green">233 青蘋綠</option>
+				<option value="323_teal">323 藍綠色</option>
+				<option value="367_royal_blue">367 寶藍色</option>
+				<option value="335_navy">335 丈青色</option>
+				<option value="676_dark_purple">676 深紫色</option>
+				<option value="745_bronze">745 古銅色</option>
+				<option value="900_black">900 時尚黑</option>
+				<option value="800_white">800 天使白</option>
+				<option value="483_silver_gray">483 銀灰色</option>
+		     </select>
+		</td>
+		<td> <input placeholder="" /></td> <!-- 電繡內容1 -->
+		<td> <input placeholder="" /></td> <!-- 電繡內容2 -->
     </tr>
     </tbody>
 </table>
@@ -73,6 +114,7 @@
 <br /><br />
 </div>
 
+<!--每件繡不一樣-->
 <div class="fill2" style="display:none">
 <label><strong>2. 填寫需求及內容:</strong></label>
 
@@ -80,11 +122,12 @@
     <thead>
     <tr>
 	    <th>序號</th>
-		<th>分類</th>
-		<th>型號</th>
+		<th>商品貨號</th>
+		<th>顏色</th>
+		<th>袖長</th>
         <th>尺寸</th>
-		<th>電繡位置</th>
         <th>件數</th>
+		<th>電繡位置</th>
 		<th>電繡字體</th>
 		<th>電繡顏色</th>
 		<th>電繡內容(第一行)</th>
@@ -94,22 +137,53 @@
     <tbody>
     <tr id="clo2">
         <td class="td2">1</td>
-		<td> <input placeholder="" /></td> <!-- 分類 -->
-		<td> <input placeholder="" /></td> <!-- 型號 -->
-        <td>
-			<select class="s_size"> <!-- 尺寸 -->
-				<option>請選擇尺寸</option>
-				<option value="S">S</option>
-				<option value="M">M</option>
-				<option value="L">L</option>
-			</select>
+		<td> <input placeholder="" size="10" /></td> <!-- 商品貨號 -->
+		<td> <input placeholder="" size="10" /></td> <!-- 顏色 -->
+        <td> <select class="s_sleeve"> <!-- 袖長 -->
+			    <option>請選擇</option>
+				<option value="short">短袖</option>
+				<option value="long">長袖</option>
+				<option value="three_quarter">七分袖</option>
+		     </select>
 		</td>
-        <td> <input placeholder="" /></td> <!-- 電繡位置 -->
-		<td> <input placeholder="" /></td> <!-- 件數 -->
-		<td> <input placeholder="" /></td> <!-- 電繡字體 -->
-		<td> <input placeholder="" /></td> <!-- 電繡顏色 -->
-		<td> <input placeholder="" /></td> <!-- 電繡內容(第一行) -->
-		<td> <input placeholder="" /></td> <!-- 電繡內容(第二行) -->
+		<td> <input placeholder="若整批繡一樣可免填" size="20" /></td> <!-- 尺寸 -->
+		<td> <input placeholder="" size="10" /></td> <!-- 件數 -->
+		<td> <select class="s_position"> <!-- 電繡位置 -->
+			    <option>請選擇</option>
+				<option value="left_chest">左胸口處</option>
+				<option value="right_chest">右胸口處</option>
+				<option value="above_left_pocket">左胸口袋上方</option>
+				<option value="above_right_pocket">右胸口袋上方</option>
+		     </select>
+		</td>
+		<td> <select class="s_font"> <!-- 電繡字體 -->
+			    <option>請選擇</option>
+				<option value="ch_kai">中文-標楷體</option>
+				<option value="ch_heavy">中文-華康中黑體</option>
+				<option value="en_kai">英文-標楷體</option>
+				<option value="en_arial">英文-Arial</option>
+				<option value="en_brush_script_mt">英文-Brush Script MT</option>
+				<option value="en_kunstler_script">英文-Kunstler Script</option>
+		     </select>
+		</td>
+		<td> <select class="s_embroidery_color"> <!-- 電繡顏色 -->
+			    <option>請選擇</option>
+				<option value="700_apple_red">700 蘋果紅</option>
+				<option value="535_orange_red">535 橘紅色</option>
+				<option value="525_golden_yellow">525 金黃色</option>
+				<option value="233_apple_green">233 青蘋綠</option>
+				<option value="323_teal">323 藍綠色</option>
+				<option value="367_royal_blue">367 寶藍色</option>
+				<option value="335_navy">335 丈青色</option>
+				<option value="676_dark_purple">676 深紫色</option>
+				<option value="745_bronze">745 古銅色</option>
+				<option value="900_black">900 時尚黑</option>
+				<option value="800_white">800 天使白</option>
+				<option value="483_silver_gray">483 銀灰色</option>
+		     </select>
+		</td>
+		<td> <input placeholder="" /></td> <!-- 電繡內容1 -->
+		<td> <input placeholder="" /></td> <!-- 電繡內容2 -->
     </tr>
     </tbody>
 </table>
@@ -122,15 +196,15 @@
 <br />
 <br />
 </div>
-
+<!--
 <div class="fill3" style="display:none">
 <label><strong>繡字內容:</strong></label>
 <br />
-&nbsp;&nbsp;電繡內容(第一行): <input name="myfield1" value="愛理醫院1" size="50">
-&nbsp;&nbsp;電繡內容(第二行): <input name="myfield2" value="愛理醫院2" size="50">
+&nbsp;&nbsp;電繡內容(第一行): <input name="myfield3" value="愛理醫院1" size="50">
+&nbsp;&nbsp;電繡內容(第二行): <input name="myfield4" value="愛理醫院2" size="50">
 <br />
 </div>
-
+-->
 <div class="fill4" style="display:none">
 <br />
 <label><strong>3. 聯絡方式</strong></label>
@@ -156,13 +230,13 @@
     <br />
     <label style="color: blue;"><strong>☆</strong></label>
 	<br />
-	<label style="color: blue;"><strong>中文 1 字：20元</strong></label>
+	<label style="color: blue;"><strong>中文 1 字：30元</strong></label>
 	<br />
-	<label style="color: blue;"><strong>英文 1 字：10元</strong></label>
+	<label style="color: blue;"><strong>英文 1 字：15元</strong></label>
 	<br />
-	<label style="color: blue;"><strong>數字 1 字：10元</strong></label>
+	<label style="color: blue;"><strong>數字 1 字：15元</strong></label>
 	<br />
-	<label style="color: blue;"><strong>符號 1 字：10元</strong></label>
+	<label style="color: blue;"><strong>符號 1 字：15元</strong></label>
 	<br />
 	<label style="color: blue;"><strong>空　格：不算費用</strong></label>
 </div>
@@ -194,7 +268,7 @@ $(".mode :radio").on("click",function(){
 		    }
 		}
 	});
-	*/
+*/
 	if (ret == "modeS") {
 		$(".fill2").css("display", "none");
 		$(".fill1").css("display", "block");
@@ -223,7 +297,7 @@ $(".td").each(function(){
 	$(this).html(i++);
 })
 
-function fun_same(ta,col,v){
+/*function fun_same(ta,col,v){
     var $clonedLastRow = $("."+ta).find("tr:last").clone(); // 克隆最后一行
 	var $clonedSelect = $clonedLastRow.find(".s_size"); // 获取克隆行中的下拉菜单
 	
@@ -235,6 +309,35 @@ function fun_same(ta,col,v){
 	$("."+v).each(function(){       //增加一行後重新更新序號1,2,3......
 	$(this).html(i++);
 	})
+}*/
+
+function fun_same(ta, col, v) {
+    var $table = $("." + ta);
+    var $lastRow = $table.find("tr:last");
+    var $clonedLastRow = $lastRow.clone();
+
+    // 要複製的 select class 列表
+    var fieldsToCopy = [
+        "s_sleeve",
+        "s_position",
+        "s_font",
+        "s_embroidery_color"
+    ];
+
+    // 複製每個欄位的值
+    fieldsToCopy.forEach(function(className) {
+        var originalVal = $lastRow.find("." + className).val();
+        $clonedLastRow.find("." + className).val(originalVal);
+    });
+
+    // 加入複製行
+    $table.append($clonedLastRow);
+
+    // 更新序號
+    var i = 1;
+    $("." + v).each(function () {
+        $(this).html(i++);
+    });
 }
 
 function fun(ta,col,v){
@@ -270,7 +373,7 @@ function sum_money(myfield) {
 		    }
 		}
 		
-		var price_all = (c_chinese_20 * 20) + (c_other_10 * 10);
+		var price_all = (c_chinese_20 * 30) + (c_other_10 * 15);
 		
 		return {chinese:c_chinese_20, other:c_other_10, space:c_space, price:price_all};
 }
@@ -312,10 +415,10 @@ function final_cal() {
 
 		$("."+table_v+" tr").each(function(i){
 		    if (i != 0) {
-			   var myfield1 = $(this).find('td:eq(8)').find("input").val()
+			   var myfield1 = $(this).find('td:eq(9)').find("input").val()
 			   //alert("第"+(i+1)+"行td的值："+myfield1+"。");
 
-			   var myfield2 = $(this).find('td:eq(9)').find("input").val()
+			   var myfield2 = $(this).find('td:eq(10)').find("input").val()
 			   //alert("第"+(i+1)+"行td的值："+myfield2+"。");
 	   
 			   var col_number = $(this).find('td:eq(5)').find("input").val();
@@ -349,33 +452,34 @@ function final_cal() {
 	*/
 	
 	var json_arr = [];
-	/*
+	
 	$("."+table_v+" tr").each(function(i){
 		if (i != 0) {
-		   var table_id = $(this).find('td:eq(0)').text()
-		   var table_item = $(this).find('td:eq(1)').find("input").val()
-		   var table_size = $(this).find('td:eq(2)').find("select").val()
-		   var table_number = $(this).find('td:eq(3)').find("input").val()
-		   var table_name = $(this).find('td:eq(4)').find("input").val()
-		   //alert(table_id+table_item+table_size+table_number+table_name);
+		   var table_id = $(this).find('td:eq(0)').text() //序號
+		   var table_item = $(this).find('td:eq(1)').find("input").val() //貨號
+		   var table_color = $(this).find('td:eq(2)').find("input").val() //顏色
+		   var table_sleeve = $(this).find('td:eq(3)').find("select").val() //袖長
+		   var table_size = $(this).find('td:eq(4)').find("input").val() //尺寸
+		   var table_number = $(this).find('td:eq(5)').find("input").val() //件數
+		   var table_name = $(this).find('td:eq(6)').find("input").val()
 
-		   if (table_item == "" || table_size == "請選擇尺寸" || table_size == "" || parseInt(table_number) <= 0) {
+		   if (table_item == "" || table_color == "" || table_size == "" || parseInt(table_number) <= 0) {
 			   alert("欄位填寫有誤, 請重新確認");
 			   return 0;
 		   }
 
 		   if (ret == "modeS") {
-		       json_arr.push({"id": table_id, "item":table_item, "size":table_size, "number":table_number, "name":myfield, "mode":ret, "price":total_price})
+		       json_arr.push({"id": table_id, "item":table_item, "size":table_size, "number":table_number, "name":table_name, "mode":ret, "price":total_price})
 		   } else {
-		       	if (table_name == "") {
+		        //未驗證
+		       	/*if (table_name == "") {
 			       alert("欄位填寫有誤, 請重新確認");
 				   return 0;
-			   }
+			    }*/
 		       json_arr.push({"id": table_id, "item":table_item, "size":table_size, "number":table_number, "name":table_name, "mode":ret, "price":total_price})
 		   }
 		}
 	});
-	*/
 	return json_arr;
 }
 
@@ -383,6 +487,7 @@ $('#save').click(function(){
 	var result = confirm("確定輸入都正確並準備開始估價存檔嗎?");
 	if (result) {
 		var final_json = final_cal();
+		alert(final_json);
 		/*
 		if (final_json != 0) {
 			$.ajax({
@@ -399,7 +504,8 @@ $('#save').click(function(){
 				$('#final_price').text("總價:" + total_price);
 			  }
 			});
-		}*/x
+		}
+		*/
 	}
 });
 
