@@ -1,9 +1,14 @@
 <html>
+<!-- 引入 jQuery 與 Select2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>電繡估價單</title>
   <script src="jquery-3.6.3.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   
  <style>
 		table {
@@ -28,97 +33,18 @@
 
 <body>
 <div class="mode">
-	<label><strong>1. 選擇模式:</strong></label>
-	<label><input type="radio" name="color" value="modeS">整批繡一樣</label>
-	<label><input type="radio" name="color" value="modeD">每件繡不一樣</label>
+	<label><strong>1. 流程說明:</strong></label>
+
 </div>
 <br /><br />
 
-<!--整批繡一樣-->
-<div class="fill1" style="display:none">
-<label><strong>2. 填寫需求及內容:</strong></label>
-
-<table class="table1" border="0">
-    <thead>
-    <tr>
-	    <th>序號</th>
-		<th>商品貨號</th>
-		<th>顏色</th>
-		<th>袖長</th>
-		<th>尺寸</th>
-        <th>件數</th>
-		<th>電繡位置</th>
-		<th>電繡字體</th>
-		<th>電繡顏色</th>
-		<th>電繡內容(第一行)</th>
-		<th>電繡內容(第二行)</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr id="clo1">
-        <td class="td1">1</td>
-		<td> <input placeholder="" size="10" /></td> <!-- 商品貨號 -->
-		<td> <input placeholder="" size="10" /></td> <!-- 顏色 -->
-        <td> <select class="s_sleeve"> <!-- 袖長 -->
-			    <option>請選擇</option>
-				<option value="short">短袖</option>
-				<option value="long">長袖</option>
-				<option value="three_quarter">七分袖</option>
-		     </select>
-		</td>
-		<td> <input placeholder="免填" size="10" /></td> <!-- 尺寸 -->
-		<td> <input placeholder="" size="10" /></td> <!-- 件數 -->
-		<td> <select class="s_position"> <!-- 電繡位置 -->
-			    <option>請選擇</option>
-				<option value="left_chest">左胸口處</option>
-				<option value="right_chest">右胸口處</option>
-				<option value="above_left_pocket">左胸口袋上方</option>
-				<option value="above_right_pocket">右胸口袋上方</option>
-		     </select>
-		</td>
-		<td> <select class="s_font"> <!-- 電繡字體 -->
-			    <option>請選擇</option>
-				<option value="ch_kai">中文-標楷體</option>
-				<option value="ch_heavy">中文-華康中黑體</option>
-				<option value="en_kai">英文-標楷體</option>
-				<option value="en_arial">英文-Arial</option>
-				<option value="en_brush_script_mt">英文-Brush Script MT</option>
-				<option value="en_kunstler_script">英文-Kunstler Script</option>
-		     </select>
-		</td>
-		<td> <select class="s_embroidery_color"> <!-- 電繡顏色 -->
-			    <option>請選擇</option>
-				<option value="700_apple_red">700 蘋果紅</option>
-				<option value="535_orange_red">535 橘紅色</option>
-				<option value="525_golden_yellow">525 金黃色</option>
-				<option value="233_apple_green">233 青蘋綠</option>
-				<option value="323_teal">323 藍綠色</option>
-				<option value="367_royal_blue">367 寶藍色</option>
-				<option value="335_navy">335 丈青色</option>
-				<option value="676_dark_purple">676 深紫色</option>
-				<option value="745_bronze">745 古銅色</option>
-				<option value="900_black">900 時尚黑</option>
-				<option value="800_white">800 天使白</option>
-				<option value="483_silver_gray">483 銀灰色</option>
-		     </select>
-		</td>
-		<td> <input placeholder="" /></td> <!-- 電繡內容1 -->
-		<td> <input placeholder="" /></td> <!-- 電繡內容2 -->
-    </tr>
-    </tbody>
-</table>
-
-<br />
-<button onclick="fun_same('table1','clo1','td1')">新增同款</button>
-<button onclick="fun('table1','clo1','td1')">新增空白</button>
-<button onclick="del('table1')">刪除</button>
-<br /><br />
-</div>
 
 <!--每件繡不一樣-->
-<div class="fill2" style="display:none">
-<label><strong>2. 填寫需求及內容:</strong></label>
+<div class="fill2" style="display:block">
+<label><strong>2. 填寫需求及內容:</strong></label><br /><br />
+訂單號: <input placeholder="M12345 or #20250101123456 尚未有訂單號可免填" size="50"><br /><br />
 
+<form id="orderForm">
 <table class="table2" border="0">
     <thead>
     <tr>
@@ -138,18 +64,160 @@
     <tbody>
     <tr id="clo2">
         <td class="td2">1</td>
-		<td> <input placeholder="" size="10" /></td> <!-- 商品貨號 -->
-		<td> <input placeholder="" size="10" /></td> <!-- 顏色 -->
-        <td> <select class="s_sleeve"> <!-- 袖長 -->
+		<td>
+			<select id="product-code" name="product_code[]" class="s_product-code" style="width:100px">
+				<option value="">請選擇</option>
+				<option value="A148">A148</option>
+				<option value="A204">A204</option>
+				<option value="A222">A222</option>
+				<option value="A246">A246</option>
+				<option value="A248">A248</option>
+				<option value="A302">A302</option>
+				<option value="A305">A305</option>
+				<option value="A502">A502</option>
+				<option value="A505">A505</option>
+				<option value="AB251">AB251</option>
+				<option value="AB252">AB252</option>
+				<option value="AB719">AB719</option>
+				<option value="AC719">AC719</option>
+				<option value="AS136">AS136</option>
+				<option value="AS150">AS150</option>
+				<option value="AS250">AS250</option>
+				<option value="AS251">AS251</option>
+				<option value="AS716">AS716</option>
+				<option value="AS7161">AS7161</option>
+				<option value="AS717">AS717</option>
+				<option value="AS718">AS718</option>
+				<option value="AS7181">AS7181</option>
+				<option value="AS804">AS804</option>
+				<option value="B101">B101</option>
+				<option value="B108">B108</option>
+				<option value="B110">B110</option>
+				<option value="B111">B111</option>
+				<option value="B122">B122</option>
+				<option value="B133">B133</option>
+				<option value="B201">B201</option>
+				<option value="B202">B202</option>
+				<option value="B204">B204</option>
+				<option value="B208">B208</option>
+				<option value="B210">B210</option>
+				<option value="B211">B211</option>
+				<option value="B222">B222</option>
+				<option value="B233">B233</option>
+				<option value="B235">B235</option>
+				<option value="B241">B241</option>
+				<option value="B302">B302</option>
+				<option value="B304">B304</option>
+				<option value="B305">B305</option>
+				<option value="B502">B502</option>
+				<option value="B505">B505</option>
+				<option value="B603">B603</option>
+				<option value="B608">B608</option>
+				<option value="B801">B801</option>
+				<option value="B802">B802</option>
+				<option value="C302">C302</option>
+				<option value="C303">C303</option>
+				<option value="C304">C304</option>
+				<option value="C503">C503</option>
+				<option value="C605">C605</option>
+				<option value="C605A">C605A</option>
+				<option value="C7021">C7021</option>
+				<option value="C709">C709</option>
+				<option value="C7091">C7091</option>
+				<option value="C713">C713</option>
+				<option value="C714">C714</option>
+				<option value="C805N1">C805N1</option>
+				<option value="D303">D303</option>
+				<option value="D305">D305</option>
+				<option value="D503">D503</option>
+				<option value="F603">F603</option>
+				<option value="F6041">F6041</option>
+				<option value="F605">F605</option>
+				<option value="F605A">F605A</option>
+				<option value="F608">F608</option>
+				<option value="F609">F609</option>
+				<option value="F611">F611</option>
+				<option value="I245">I245</option>
+				<option value="I704">I704</option>
+				<option value="I712">I712</option>
+				<option value="W403">W403</option>
+				<option value="W4031">W4031</option>
+				<option value="W460">W460</option>
+			  </select>
+		</td>
+
+<script>
+  $(document).ready(function() {
+    $('#product-code').select({
+      placeholder: "請選擇或輸入貨號",
+      allowClear: true
+    });
+  });
+</script>
+
+		<td>
+		  <select class="s_color" name="s_color[]">
+			<option value="">請選擇</option>
+			<option value="A0寶寶粉">A0 寶寶粉</option>
+			<option value="A1活潑粉">A1 活潑粉</option>
+			<option value="A2梅子粉">A2 梅子粉</option>
+			<option value="A3珊瑚粉">A3 珊瑚粉</option>
+			<option value="A6亮桃紅">A6 亮桃紅</option>
+			<option value="A9釀酒紅">A9 釀酒紅</option>
+			<option value="B0寶寶藍">B0 寶寶藍</option>
+			<option value="B5北歐藍">B5 北歐藍</option>
+			<option value="B7蔚海藍">B7 蔚海藍</option>
+			<option value="B7寶石藍">B7 寶石藍</option>
+			<option value="B9深海藍">B9 深海藍</option>
+			<option value="C0丁香紫">C0 丁香紫</option>
+			<option value="C2迷霧紫">C2 迷霧紫</option>
+			<option value="C6亮紫紅">C6 亮紫紅</option>
+			<option value="C7葡萄紫">C7 葡萄紫</option>
+			<option value="D0天堂藍">D0 天堂藍</option>
+			<option value="E0果子綠">E0 果子綠</option>
+			<option value="E2雪松綠">E2 雪松綠</option>
+			<option value="E5抹茶綠">E5 抹茶綠</option>
+			<option value="F0粉霧橘">F0 粉霧橘</option>
+			<option value="F1卡其灰">F1 卡其灰</option>
+			<option value="F1杏仁奶">F1 杏仁奶</option>
+			<option value="F5豆沙紅">F5 豆沙紅</option>
+			<option value="F7暗棗紅">F7 暗棗紅</option>
+			<option value="F8礦物棕">F8 礦物棕</option>
+			<option value="W0純粹白">W0 純粹白</option>
+			<option value="W3蓋亞灰">W3 蓋亞灰</option>
+			<option value="W6灰蒼藍">W6 灰蒼藍</option>
+			<option value="W7暗岩灰">W7 暗岩灰</option>
+			<option value="W8夜幕黑">W8 夜幕黑</option>
+			<option value="W9石墨黑">W9 石墨黑</option>
+		  </select>
+		</td>
+        <td> <select class="s_sleeve" name="s_sleeve[]"> <!-- 袖長 -->
 			    <option>請選擇</option>
 				<option value="short">短袖</option>
 				<option value="long">長袖</option>
 				<option value="three_quarter">七分袖</option>
 		     </select>
 		</td>
-		<td> <input placeholder="若整批繡一樣可免填" size="20" /></td> <!-- 尺寸 -->
-		<td> <input placeholder="" size="10" /></td> <!-- 件數 -->
-		<td> <select class="s_position"> <!-- 電繡位置 -->
+		<td>
+		  <select class="s_size" name="s_size[]">
+			<option value="">請選擇</option>
+			<option value="整批繡一樣">整批繡一樣</option>
+			<option value="XS">XS</option>
+			<option value="S">S</option>
+			<option value="M">M</option>
+			<option value="L">L</option>
+			<option value="XL">XL</option>
+			<option value="2XL">2XL</option>
+			<option value="3XL">3XL</option>
+			<option value="4XL">4XL</option>
+			<option value="5XL">5XL</option>
+			<option value="6XL">6XL</option>
+			<option value="7XL">7XL</option>
+			<option value="8XL">8XL</option>
+		  </select>
+		</td>
+		<td> <input name="i_number[]" placeholder="" size="10" /></td> <!-- 件數 -->
+		<td> <select class="s_position" name="s_position[]"> <!-- 電繡位置 -->
 			    <option>請選擇</option>
 				<option value="left_chest">左胸口處</option>
 				<option value="right_chest">右胸口處</option>
@@ -157,7 +225,7 @@
 				<option value="above_right_pocket">右胸口袋上方</option>
 		     </select>
 		</td>
-		<td> <select class="s_font"> <!-- 電繡字體 -->
+		<td> <select class="s_font" name="s_font[]"> <!-- 電繡字體 -->
 			    <option>請選擇</option>
 				<option value="ch_kai">中文-標楷體</option>
 				<option value="ch_heavy">中文-華康中黑體</option>
@@ -167,7 +235,7 @@
 				<option value="en_kunstler_script">英文-Kunstler Script</option>
 		     </select>
 		</td>
-		<td> <select class="s_embroidery_color"> <!-- 電繡顏色 -->
+		<td> <select class="s_embroidery_color" name="s_embroidery_color[]"> <!-- 電繡顏色 -->
 			    <option>請選擇</option>
 				<option value="700_apple_red">700 蘋果紅</option>
 				<option value="535_orange_red">535 橘紅色</option>
@@ -183,16 +251,58 @@
 				<option value="483_silver_gray">483 銀灰色</option>
 		     </select>
 		</td>
-		<td> <input placeholder="" /></td> <!-- 電繡內容1 -->
-		<td> <input placeholder="" /></td> <!-- 電繡內容2 -->
+		<!-- 電繡內容1 maxlength字數限制-->
+
+			<td><input id="embroidery1" name="i_embroidery1[]" placeholder="字數限制，超過自動刪除"/></td>
+			<td><input id="embroidery2" name="i_embroidery2[]" placeholder="字數限制，超過自動刪除"/></td>
+
+			<script>
+			  const maxLength = 5; // 自訂限制
+
+			  function getLength(str) {
+				let len = 0;
+				for (let char of str) {
+				  if (char.charCodeAt(0) > 255) {
+					len += 1;   // 中文、全形
+				  } else {
+					len += 0.5; // 英文、半形
+				  }
+				}
+				return len;
+			  }
+
+			  function trimToMax(str) {
+				while (getLength(str) > maxLength) {
+				  str = str.slice(0, -1);
+				}
+				return str;
+			  }
+
+			  function applyLimit(inputId) {
+				const input = document.getElementById(inputId);
+				input.addEventListener("blur", function () {
+				  input.value = trimToMax(input.value);
+				});
+			  }
+
+			  // 套用到兩個欄位
+			  applyLimit("embroidery1");
+			  applyLimit("embroidery2");
+			</script>
+		
     </tr>
     </tbody>
 </table>
 
+<!-- 隱藏欄位，用來放組好的 HTML 表格給 EmailJS -->
+<input type="hidden" name="table_content" id="table_content">
+<input type="hidden" name="user_name" id="user_name">
+<input type="hidden" name="user_email" id="user_email">
+
 <br />
-<button onclick="fun_same('table2','clo2','td2')">新增同款</button>
-<button onclick="fun('table2','clo2','td2')">新增空白</button>
-<button onclick="del('table2')">刪除</button>
+<button type="button" onclick="fun('table2','clo2','td2')">新增一行</button>
+&nbsp;<button type="button" onclick="fun_same('table2','clo2','td2')">複製最後一行</button>
+&nbsp;<button type="button" onclick="del('table2')">刪除最後一行</button>
 
 <br />
 <br />
@@ -206,20 +316,21 @@
 <br />
 </div>
 -->
-<div class="fill4" style="display:none">
+<div class="fill4" style="display:block">
 <br />
 <label><strong>3. 聯絡方式</strong></label>
-<br />
-&nbsp;&nbsp;姓名: <input name="myname" size="30"> <br /><br />
-&nbsp;&nbsp;電話: <input name="myphone" size="30"> <br /><br />
-&nbsp;&nbsp;email: <input name="myemail" size="50"> <br /><br />
+<br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;單位名稱: <input name="myname" size="30"> <br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;聯絡人姓名: <input name="myname" size="30"> <br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;電話: <input name="myphone" size="30"> <br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;e-mail: <input name="myemail" size="50"> <br />
 </div>
 </body>
 
-<div class="price" style="display:none">
+<div class="price" style="display:block">
 <br />
 <label id="final_id" style="color:red;"></label>
- <button id="copyButton" style="display:none">複製單號</button>
+ <button type="button" id="copyButton" style="display:none">複製單號</button>
 <br />
 <label id="final_price" style="color:red;"></label>
 <br />
@@ -227,7 +338,14 @@
 
 <div class="note">
     <br />
-    <label><strong>4. 只計算金額請選「估價」，送出訂單請選「估價並送單」，請注意，選擇「估價並送單」愛理才會收到您的訂單唷</strong></label>
+    <label><strong>4.</strong></label>
+    <br />
+    <label style="color: red;"><strong>只計算金額請選「估價」</strong></label>
+    <br />
+    <label style="color: red;"><strong>送出訂單請選「估價並送單」</strong></label>
+    <br />
+    <label style="color: red;"><strong>請注意，選擇「估價並送單」愛理才會收到您的訂單唷</strong></label>
+    <br />
     <br />
     <label style="color: blue;"><strong>☆</strong></label>
 	<br />
@@ -242,75 +360,25 @@
 	<label style="color: blue;"><strong>空　格：不算費用</strong></label>
 </div>
 
-<div class="botton1" style="display:none">
+
+<div class="botton1" style="display:block">
 <br />
-<button id="nosave">估價</button>
-<button id="save">估價並送單</button>
+<button type="button" id="nosave">估價</button>
+<button type="submit" id="save">估價並送單</button>
 </div>
+</form>
+
+
 <script>
 
 var final_id = "";
 var i = 1;
 var total_price = 0;
-$(".mode :radio").on("click",function(){
-    var ret = $('input[name=color]:checked').val();
-/*
-	$.ajax({
-		url: 'size.php',
-		dataType: 'json',
-		success: function(data) {
-		    if (data.length > 0) {
-			    var selectElement = $(".s_size");
-				selectElement.empty();
-				selectElement.append('<option>請選擇尺寸</option>');
-				for (let i = 0; i < data.length; i++) {
-				    selectElement.append('<option>' + data[i] + '</option>');
-			    }
-		    }
-		}
-	});
-*/
-	if (ret == "modeS") {
-		$(".fill2").css("display", "none");
-		$(".fill1").css("display", "block");
-		$(".fill3").css("display", "block");
-		$(".botton1").css("display", "block");
-		$(".fill4").css("display", "block");
-	} else {
-		$(".fill1").css("display", "none");
-		$(".fill3").css("display", "none");
-		$(".fill2").css("display", "block");
-		$(".fill4").css("display", "block");
-		$(".botton1").css("display", "block");
-    }
-    //reset
-	$('#final_id').text("");
-	$('#copyButton').css("display", "none");
-	$('#final_price').text("");
-	$(".price").css("display", "none");
-	final_id = "";
-	i = 1;
-	total_price = 0;
-});
 
 
 $(".td").each(function(){
 	$(this).html(i++);
 })
-
-/*function fun_same(ta,col,v){
-    var $clonedLastRow = $("."+ta).find("tr:last").clone(); // 克隆最后一行
-	var $clonedSelect = $clonedLastRow.find(".s_size"); // 获取克隆行中的下拉菜单
-	
-	var $originalSelect = $("."+ta).find("tr:last").find(".s_size");
-	$clonedSelect.val($originalSelect.val());
-	
-	$("."+ta).append($clonedLastRow);
-	var i = 1;
-	$("."+v).each(function(){       //增加一行後重新更新序號1,2,3......
-	$(this).html(i++);
-	})
-}*/
 
 function fun_same(ta, col, v) {
     var $table = $("." + ta);
@@ -319,7 +387,10 @@ function fun_same(ta, col, v) {
 
     // 要複製的 select class 列表
     var fieldsToCopy = [
+	    "s_product-code",
+		"s_color",
         "s_sleeve",
+		"s_size",
         "s_position",
         "s_font",
         "s_embroidery_color"
@@ -388,53 +459,32 @@ function final_cal() {
 	final_id = "";
 	total_price = 0;
 
-    var ret = $('input[name=color]:checked').val();
 	var table_v = "";
 	var obj1;
 	var obj2;
-	if (ret == "modeS") { //整批繡一樣
-	    table_v = "table1";
-		var myfield1 = $("input[name='myfield1']").val();
-		obj1 = sum_money(myfield1);
+//每件繡不一樣
+	table_v = "table2"
 
-		var myfield2 = $("input[name='myfield2']").val();
-		obj2 = sum_money(myfield2);
-		
-        var total_number = 0;
-		$("."+table_v+" tr").each(function(i){
-		    if (i != 0) {
-			   var col_number = $(this).find('td:eq(5)').find("input").val();
-			   alert(col_number);
-			   if (col_number > 0)
-			       total_number += parseInt(col_number);	
-			}
-		});
-		total_price += (parseInt(obj1.price) * parseInt(total_number));
-		total_price += (parseInt(obj2.price) * parseInt(total_number));
-	} else { //每件繡不一樣
-	    table_v = "table2"
+	$("."+table_v+" tr").each(function(i){
+		if (i != 0) {
+		   var myfield1 = $(this).find('td:eq(9)').find("input").val()
+		   //alert("第"+(i+1)+"行td的值："+myfield1+"。");
 
-		$("."+table_v+" tr").each(function(i){
-		    if (i != 0) {
-			   var myfield1 = $(this).find('td:eq(9)').find("input").val()
-			   //alert("第"+(i+1)+"行td的值："+myfield1+"。");
-
-			   var myfield2 = $(this).find('td:eq(10)').find("input").val()
-			   //alert("第"+(i+1)+"行td的值："+myfield2+"。");
-	   
-			   var col_number = $(this).find('td:eq(5)').find("input").val();
-			   
-			   if (col_number > 0) {
-				   obj1 = sum_money(myfield1);
-				   obj2 = sum_money(myfield2);				   
-				   total_price += (parseInt(obj1.price) * parseInt(col_number));
-				   total_price += (parseInt(obj2.price) * parseInt(col_number));
-			   }
-			   //alert("中文數量:"+obj1.chinese+" ,其餘字數量:"+obj1.other+" ,空白字數量:"+obj1.space+" ,單價:"+obj1.price+" ,目前總價:"+total_price);
-			   //alert("中文數量:"+obj2.chinese+" ,其餘字數量:"+obj2.other+" ,空白字數量:"+obj2.space+" ,單價:"+obj2.price+" ,目前總價:"+total_price);
-			}
-		});
-    }
+		   var myfield2 = $(this).find('td:eq(10)').find("input").val()
+		   //alert("第"+(i+1)+"行td的值："+myfield2+"。");
+   
+		   var col_number = $(this).find('td:eq(5)').find("input").val();
+		   
+		   if (col_number > 0) {
+			   obj1 = sum_money(myfield1);
+			   obj2 = sum_money(myfield2);				   
+			   total_price += (parseInt(obj1.price) * parseInt(col_number));
+			   total_price += (parseInt(obj2.price) * parseInt(col_number));
+		   }
+		   //alert("中文數量:"+obj1.chinese+" ,其餘字數量:"+obj1.other+" ,空白字數量:"+obj1.space+" ,單價:"+obj1.price+" ,目前總價:"+total_price);
+		   //alert("中文數量:"+obj2.chinese+" ,其餘字數量:"+obj2.other+" ,空白字數量:"+obj2.space+" ,單價:"+obj2.price+" ,目前總價:"+total_price);
+		}
+	});
 	
 	if (total_price == 0) {
 	    alert("欄位填寫有誤, 請重新確認");
@@ -456,58 +506,52 @@ function final_cal() {
 	
 	$("."+table_v+" tr").each(function(i){
 		if (i != 0) {
-		   var table_id = $(this).find('td:eq(0)').text() //序號
-		   var table_item = $(this).find('td:eq(1)').find("input").val() //貨號
-		   var table_color = $(this).find('td:eq(2)').find("input").val() //顏色
-		   var table_sleeve = $(this).find('td:eq(3)').find("select").val() //袖長
-		   var table_size = $(this).find('td:eq(4)').find("input").val() //尺寸
+		   var table_id = $(this).find('td:eq(0)').text(); //序號
+		   var table_item = $(this).find('td:eq(1)').find("select option:selected").text(); //貨號
+		   var table_color = $(this).find('td:eq(2)').find("select option:selected").text() //顏色
+		   var table_sleeve = $(this).find('td:eq(3)').find("select option:selected").text() //袖長
+		   var table_size = $(this).find('td:eq(4)').find("select option:selected").text() //尺寸
 		   var table_number = $(this).find('td:eq(5)').find("input").val() //件數
-		   var table_name = $(this).find('td:eq(6)').find("input").val()
+		   var table_position = $(this).find('td:eq(6)').find("select option:selected").text() //電繡位置
+		   var table_font = $(this).find('td:eq(7)').find("select option:selected").text() //電繡字體
+		   var table_fontcolor = $(this).find('td:eq(8)').find("select option:selected").text() //電繡顏色
+		   var table_content1 = $(this).find('td:eq(9)').find("input").val() //電繡內容(第一行)
+		   var table_content2 = $(this).find('td:eq(10)').find("input").val() //電繡內容(第一行)
 
-		   if (table_item == "" || table_color == "" || table_size == "" || parseInt(table_number) <= 0) {
+		   if (table_item == "" || table_color == "" || parseInt(table_number) <= 0 || table_position == "" || table_font == "" || table_fontcolor == "") {
 			   alert("欄位填寫有誤, 請重新確認");
 			   return 0;
 		   }
 
-		   if (ret == "modeS") {
-		       json_arr.push({"id": table_id, "item":table_item, "size":table_size, "number":table_number, "name":table_name, "mode":ret, "price":total_price})
-		   } else {
-		        //未驗證
-		       	/*if (table_name == "") {
-			       alert("欄位填寫有誤, 請重新確認");
-				   return 0;
-			    }*/
-		       json_arr.push({"id": table_id, "item":table_item, "size":table_size, "number":table_number, "name":table_name, "mode":ret, "price":total_price})
-		   }
+		   json_arr.push({"id": table_id, "item":table_item, "color":table_color, "sleeve":table_sleeve, "size":table_size, "number":table_number, "position":table_position, "font":table_font, "font":table_fontcolor, "content1":table_content1, "content2":table_content2, "price":total_price})
+		   alert(
+			  "id: " + table_id +
+			  "\nitem: " + table_item +
+			  "\ncolor: " + table_color +
+			  "\nsleeve: " + table_sleeve +
+			  "\nsize: " + table_size +
+			  "\nnumber: " + table_number +
+			  "\nposition: " + table_position +
+			  "\nfont: " + table_font +
+			  "\nfontcolor: " + table_fontcolor +
+			  "\ncontent1: " + table_content1 +
+			  "\ncontent2: " + table_content2 +
+			  "\nprice: " + total_price
+            );
 		}
 	});
 	return json_arr;
 }
+/*
+$('#save').click(function(){
+	var result = confirm("確定輸入都正確並準備開始估價存檔嗎?");
+	if (result) {
+		var final_json = final_cal();
+		alert(final_json);
 
-$(document).ready(function () {
-    emailjs.init('68i7tkfMbfPaTCzuw'); // 換成你的 Public Key
+	}
 });
-
-$('#save').click(function () {
-  var result = confirm("確定輸入都正確並準備開始估價存檔嗎?0828-3");
-  if (result) {
-    const templateParams = {
-      user_name: 'yian',
-      user_email: 'ginger91325@gmail.com',
-      message: '測試成功'
-    };
-
-    emailjs.send('service_fy9ayzj', 'template_g0mopsa', templateParams)
-      .then(function (response) {
-        alert('✅ 已成功送出信件！');
-        console.log('成功', response);
-      }, function (error) {
-        alert('❌ 發送失敗：' + JSON.stringify(error));
-        console.error('錯誤', error);
-      });
-  }
-});
-
+*/
 $('#nosave').click(function(){
     var final_json = final_cal();
 	$(".price").css("display", "block");
@@ -523,11 +567,73 @@ $('#copyButton').click(function() {
   $temp.remove();
 });
 
+// 將表格中的所有 select 與 input 的值，換成文字顯示
+function prepareTableForEmail(tableSelector) {
+  const table = document.querySelector(tableSelector);
+  const selects = table.querySelectorAll('select');
+  selects.forEach(select => {
+    const selectedText = select.options[select.selectedIndex]?.text || '';
+    const td = select.closest('td');
+    td.textContent = selectedText; // 用文字取代整個 td 的內容
+  });
+
+  const inputs = table.querySelectorAll('input');
+  inputs.forEach(input => {
+    const value = input.value;
+    const td = input.closest('td');
+    td.textContent = value; // 直接把值放進 td 裡
+  });
+}
+
+function styleTableForEmail(tableSelector) {
+  const table = document.querySelector(tableSelector);
+  table.setAttribute("border", "1");
+  table.setAttribute("cellpadding", "8");
+  table.style.borderCollapse = "collapse";
+  table.style.width = "100%";
+
+  const allCells = table.querySelectorAll("th, td");
+  allCells.forEach(cell => {
+    cell.style.border = "1px solid #000";
+    cell.style.padding = "8px";
+    cell.style.textAlign = "center";
+    cell.style.fontSize = "14px";
+  });
+}
+
+$(document).ready(function () {
+    emailjs.init('68i7tkfMbfPaTCzuw'); // 換成你的 Public Key
+});
+
+// 表單送出
+document.getElementById("orderForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    // 🔁 把使用者填入的資料轉為靜態文字
+    prepareTableForEmail(".table2");
+	styleTableForEmail(".table2");     // 把表格加上格線 & 樣式
+
+	// 取得靜態表格 HTML
+	var tableHtml = document.querySelector(".table2").outerHTML;
+	document.getElementById("table_content").value = tableHtml;
+	
+    document.getElementById("user_name").value = "無天祥";
+	document.getElementById("user_email").value = "ginger91325@gmail.com";
+
+    // 確認送出
+    var result = confirm("確定輸入都正確並準備開始估價存檔嗎?");
+    if(result){
+		emailjs.sendForm('service_fy9ayzj', 'template_g0mopsa', this)
+		  .then(function (response) {
+			alert('✅ 已成功送出信件！');
+			console.log('成功', response);
+		  }, function (error) {
+			alert('❌ 發送失敗：' + JSON.stringify(error));
+			console.error('錯誤', error);
+		  });
+    }
+});
+
 </script>
 
-
 </html>
-
-
-
-
