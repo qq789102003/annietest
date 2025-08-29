@@ -42,7 +42,7 @@
 <!--每件繡不一樣-->
 <div class="fill2" style="display:block">
 <label><strong>2. 填寫需求及內容:</strong></label><br /><br />
-訂單號: <input placeholder="M12345 or #20250101123456 尚未有訂單號可免填" size="50"><br /><br />
+訂單號: <input id="input_ordernumber" placeholder="M12345 or #20250101123456 尚未有訂單號可免填" size="50"><br /><br />
 
 <form id="orderForm">
 <table class="table2" border="0">
@@ -296,8 +296,16 @@
 
 <!-- 隱藏欄位，用來放組好的 HTML 表格給 EmailJS -->
 <input type="hidden" name="table_content" id="table_content">
-<input type="hidden" name="user_name" id="user_name">
-<input type="hidden" name="user_email" id="user_email">
+<input type="hidden" name="user_name" id="user_name"> <!-- 聯絡人姓名 emailjs用-->
+<input type="hidden" name="user_email" id="user_email"> <!-- email emailjs用-->
+
+<input type="hidden" name="user_ordernumber" id="user_ordernumber"> <!-- 單號 emailjs用-->
+<input type="hidden" name="user_company" id="user_company"> <!-- 單位名稱 emailjs用-->
+<input type="hidden" name="user_phone" id="user_phone"> <!-- 電話 emailjs用-->
+
+<input type="hidden" name="user_memory" id="user_memory"> <!-- 金錢 emailjs用-->
+
+<input type="hidden" name="user_serialnumber" id="user_serialnumber"> <!-- 流水號 emailjs用-->
 
 <br />
 <button type="button" onclick="fun('table2','clo2','td2')">新增一行</button>
@@ -320,21 +328,12 @@
 <br />
 <label><strong>3. 聯絡方式</strong></label>
 <br /><br />
-&nbsp;&nbsp;&nbsp;&nbsp;單位名稱: <input name="myname" size="30"> <br /><br />
-&nbsp;&nbsp;&nbsp;&nbsp;聯絡人姓名: <input name="myname" size="30"> <br /><br />
-&nbsp;&nbsp;&nbsp;&nbsp;電話: <input name="myphone" size="30"> <br /><br />
-&nbsp;&nbsp;&nbsp;&nbsp;e-mail: <input name="myemail" size="50"> <br />
+&nbsp;&nbsp;&nbsp;&nbsp;單位名稱: <input id="input_company" name="myname" size="30"> <br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;聯絡人姓名: <input id="input_name" name="myname" size="30"> <br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;電話: <input id="input_phone" name="myphone" size="30"> <br /><br />
+&nbsp;&nbsp;&nbsp;&nbsp;e-mail: <input id="input_email" name="myemail" size="50"> <br />
 </div>
 </body>
-
-<div class="price" style="display:block">
-<br />
-<label id="final_id" style="color:red;"></label>
- <button type="button" id="copyButton" style="display:none">複製單號</button>
-<br />
-<label id="final_price" style="color:red;"></label>
-<br />
-</div>
 
 <div class="note">
     <br />
@@ -368,6 +367,27 @@
 </div>
 </form>
 
+<div id="display_serialnumber" class="highlighted"></div>
+
+<div class="price" style="display:block">
+<br />
+<label id="final_id" style="color:red;"></label>
+ <button type="button" id="copyButton" style="display:none">按此複製流水號</button>
+<br />
+<label id="final_price" style="color:red;"></label>
+<br />
+</div>
+
+<style>
+.highlighted {
+    color: red;
+    font-weight: bold;
+    font-size: 1.2em;
+    background-color: #fff0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+</style>
 
 <script>
 
@@ -488,7 +508,7 @@ function final_cal() {
 	
 	if (total_price == 0) {
 	    alert("欄位填寫有誤, 請重新確認");
-	    return 0;
+	    return;
 	}
 	/* //debug table
     $("."+table_v+" tr").each(function(i){
@@ -501,7 +521,7 @@ function final_cal() {
        });
     });
 	*/
-	
+	/*
 	var json_arr = [];
 	
 	$("."+table_v+" tr").each(function(i){
@@ -516,11 +536,11 @@ function final_cal() {
 		   var table_font = $(this).find('td:eq(7)').find("select option:selected").text() //電繡字體
 		   var table_fontcolor = $(this).find('td:eq(8)').find("select option:selected").text() //電繡顏色
 		   var table_content1 = $(this).find('td:eq(9)').find("input").val() //電繡內容(第一行)
-		   var table_content2 = $(this).find('td:eq(10)').find("input").val() //電繡內容(第一行)
+		   var table_content2 = $(this).find('td:eq(10)').find("input").val() //電繡內容(第二行)
 
 		   if (table_item == "" || table_color == "" || parseInt(table_number) <= 0 || table_position == "" || table_font == "" || table_fontcolor == "") {
 			   alert("欄位填寫有誤, 請重新確認");
-			   return 0;
+			   return;
 		   }
 
 		   json_arr.push({"id": table_id, "item":table_item, "color":table_color, "sleeve":table_sleeve, "size":table_size, "number":table_number, "position":table_position, "font":table_font, "font":table_fontcolor, "content1":table_content1, "content2":table_content2, "price":total_price})
@@ -541,6 +561,8 @@ function final_cal() {
 		}
 	});
 	return json_arr;
+	*/
+	return;
 }
 /*
 $('#save').click(function(){
@@ -553,7 +575,7 @@ $('#save').click(function(){
 });
 */
 $('#nosave').click(function(){
-    var final_json = final_cal();
+    final_cal();
 	$(".price").css("display", "block");
 	$('#final_price').text("總價:" + total_price);
 });
@@ -601,6 +623,20 @@ function styleTableForEmail(tableSelector) {
   });
 }
 
+
+function generateSerialNumber() {
+    const prefix = "ANNIE";
+    const now = new Date();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // 月 (01-12)
+    const day = String(now.getDate()).padStart(2, '0');        // 日 (01-31)
+    
+    // 產生 6 位數亂碼（數字）
+    const randomNum = Math.floor(Math.random() * 1000000);     // 0 - 999999
+    const randomStr = String(randomNum).padStart(6, '0');       // 補足 6 位
+
+    return prefix + month + day + randomStr;
+}
+
 $(document).ready(function () {
     emailjs.init('68i7tkfMbfPaTCzuw'); // 換成你的 Public Key
 });
@@ -609,6 +645,20 @@ $(document).ready(function () {
 document.getElementById("orderForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
+    final_cal();
+	$(".price").css("display", "block");
+	$('#final_price').text("總價:" + total_price);
+	
+    // 🔒 禁用按鈕 10 秒
+    const submitButton = document.getElementById("save");
+    submitButton.disabled = true;
+    submitButton.textContent = "冷卻10秒中"; // 可選，改變按鈕文字
+
+    setTimeout(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = "估價並送單"; // 恢復原本的按鈕文字
+    }, 10000); // 10 秒 = 10000 毫秒
+
     // 🔁 把使用者填入的資料轉為靜態文字
     prepareTableForEmail(".table2");
 	styleTableForEmail(".table2");     // 把表格加上格線 & 樣式
@@ -616,15 +666,40 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
 	// 取得靜態表格 HTML
 	var tableHtml = document.querySelector(".table2").outerHTML;
 	document.getElementById("table_content").value = tableHtml;
-	
-    document.getElementById("user_name").value = "無天祥";
-	document.getElementById("user_email").value = "ginger91325@gmail.com";
+
+	// 取得使用者輸入的資料
+    const company = document.getElementById("input_company").value;
+    const name = document.getElementById("input_name").value;
+    const phone = document.getElementById("input_phone").value;
+    const email = document.getElementById("input_email").value;
+	const ordernumber = document.getElementById("input_ordernumber").value;
+
+    // 設定到對應的 hidden 欄位
+    document.getElementById("user_company").value = company;
+    document.getElementById("user_name").value = name;
+    document.getElementById("user_phone").value = phone;
+    document.getElementById("user_email").value = email;
+	document.getElementById("user_ordernumber").value = ordernumber;
+	document.getElementById("user_memory").value = total_price;
+
+	const serialNumber = generateSerialNumber();
+	document.getElementById("user_serialnumber").value = serialNumber;
 
     // 確認送出
     var result = confirm("確定輸入都正確並準備開始估價存檔嗎?");
-    if(result){
+    if(result) {
 		emailjs.sendForm('service_fy9ayzj', 'template_g0mopsa', this)
 		  .then(function (response) {
+
+			document.getElementById("display_serialnumber").textContent = "您的流水號是: " + serialNumber;
+			
+			// 顯示 copy 按鈕
+			const copyBtn = document.getElementById("copyButton");
+			copyBtn.style.display = "inline-block";
+
+			// 儲存流水號到按鈕屬性（供複製用）
+			copyBtn.setAttribute("data-serial", serialNumber);
+			
 			alert('✅ 已成功送出信件！');
 			console.log('成功', response);
 		  }, function (error) {
@@ -632,6 +707,18 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
 			console.error('錯誤', error);
 		  });
     }
+});
+
+// 綁定複製按鈕的行為
+document.getElementById("copyButton").addEventListener("click", function () {
+    const serial = this.getAttribute("data-serial");
+
+    // 複製到剪貼簿
+    navigator.clipboard.writeText(serial).then(function () {
+        alert("✅ 已複製單號：" + serial);
+    }, function (err) {
+        alert("❌ 複製失敗：" + err);
+    });
 });
 
 </script>
